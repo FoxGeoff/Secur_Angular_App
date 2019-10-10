@@ -40,6 +40,7 @@ namespace SecuringAngularApps.API
                  {
                      // base-address of your identityserver
                      options.Authority = "http://localhost:4242/";
+                     // Allow debug in dev with no SSL cert MUST CHANGE in production
                      options.RequireHttpsMetadata = false;
                      // name of the API resource
                      options.Audience = "projects-api";
