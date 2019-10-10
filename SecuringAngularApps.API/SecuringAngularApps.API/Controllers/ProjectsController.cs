@@ -27,6 +27,11 @@ namespace SecuringAngularApps.API.Controllers
         [HttpGet]
         public IEnumerable<Project> GetProjects()
         {
+            //debug code
+            var claims = (from c in User.Claims select new { c.Type, c.Value }).ToList();
+            claims.ForEach(c => Console.WriteLine($"{c.Type}:  {c.Value}"));
+            //end debug code
+
             if (User.IsInRole("Admin"))
             {
                 return _context.Projects;
