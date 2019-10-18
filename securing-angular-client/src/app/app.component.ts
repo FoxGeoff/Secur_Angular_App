@@ -32,7 +32,9 @@ export class AppComponent implements OnInit {
       });
     }
   }
-
+ getUserName():string{
+   return "Welcome Geoff Fox";
+ }
   login() {
     this._authService.login();
   }
