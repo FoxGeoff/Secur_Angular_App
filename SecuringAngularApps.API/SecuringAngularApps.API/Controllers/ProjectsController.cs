@@ -54,7 +54,7 @@ namespace SecuringAngularApps.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await ProjectEditAccessCheck(id, false)) return Forbid();
+            if (!await ProjectEditAccessCheck(id, false)) return Forbid(); 
 
             var project = _context.Projects
                 .Include("Milestones")
@@ -193,6 +193,9 @@ namespace SecuringAngularApps.API.Controllers
 
         private async Task<bool> MilestoneAccessCheck(Milestone item)
         {
+            if (User.IsInRole("Admin"))
+                return true;  // GLF code fix
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var perm = await _context.UserPermissions.FirstOrDefaultAsync(up => up.ProjectId == item.ProjectId &&
                 up.UserProfileId == userId);
@@ -201,6 +204,9 @@ namespace SecuringAngularApps.API.Controllers
 
         private async Task<bool> ProjectEditAccessCheck(int projectId, bool edit)
         {
+            if (User.IsInRole("Admin"))
+                return true;  // GLF code fix
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userAccess = await _context.UserPermissions.FirstOrDefaultAsync(up =>
                 up.ProjectId == projectId && up.UserProfileId == userId);
