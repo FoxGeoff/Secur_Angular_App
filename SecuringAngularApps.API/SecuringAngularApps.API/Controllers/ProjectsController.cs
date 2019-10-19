@@ -205,7 +205,7 @@ namespace SecuringAngularApps.API.Controllers
         private async Task<bool> ProjectEditAccessCheck(int projectId, bool edit)
         {
             if (User.IsInRole("Admin"))
-                return true;  // GLF code fix
+                return true;  // GLF code fix 
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userAccess = await _context.UserPermissions.FirstOrDefaultAsync(up =>

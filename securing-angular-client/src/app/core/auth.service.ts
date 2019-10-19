@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { UserManager, User, WebStorageStateStore } from 'oidc-client';
+import { UserManager, User, WebStorageStateStore, Log } from 'oidc-client';
 import { Constants } from '../constants';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class AuthService {
   private _user: User;
 
   constructor(private httpClient: HttpClient) {
+    Log.logger = console;
     var config = {
       authority: Constants.stsAuthority,
       client_id: Constants.clientId,
