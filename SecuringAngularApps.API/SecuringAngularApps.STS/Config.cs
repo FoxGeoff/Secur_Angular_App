@@ -25,7 +25,8 @@ namespace SecuringAngularApps.STS{
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
 
-                    RedirectUris =           { "http://localhost:4200/assets/oidc-login-redirect.html" },
+                    RedirectUris =           { "http://localhost:4200/assets/oidc-login-redirect.html",
+                    "http://localhost:4200/assets/silent-redirect.html" },
                     PostLogoutRedirectUris = { "http://localhost:4200/?postLogout=true" },
                     AllowedCorsOrigins =     { "http://localhost:4200/" },
 
@@ -35,8 +36,8 @@ namespace SecuringAngularApps.STS{
                         IdentityServerConstants.StandardScopes.Profile,
                         "projects-api"
                     },
-                    IdentityTokenLifetime = 30,
-                    AccessTokenLifetime = 30
+                    IdentityTokenLifetime = 120,
+                    AccessTokenLifetime = 120
                 }
             };
 

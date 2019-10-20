@@ -14,7 +14,6 @@ namespace SecuringAngularApps.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Account")]
-    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private readonly ProjectDbContext _context;
@@ -25,6 +24,7 @@ namespace SecuringAngularApps.API.Controllers
         }
 
         [HttpGet("Users")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllUsers()
         {
             var admins = _context.UserPermissions.Where(up => up.Value == "Admin").Select(up => up.UserProfileId).ToList();
@@ -32,5 +32,15 @@ namespace SecuringAngularApps.API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("AuthContext")]
+        [Authorize()]
+        public IActionResult GetAuthContext()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var profile = _context.UserProfiles.Include("UserPermissions").FirstOrDefault(u => u.Id == userId);
+            if (profile == null) return NotFound();
+            var context = new AuthContext { UserProfile = profile, Claims = User.Claims.Select(c => new SimpleClaim { Type = c.Type, Value = c.Value }).ToList() };
+            return Ok(context);
+        }
     }
 }
